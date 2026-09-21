@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti 🌻</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* (El CSS se mantiene igual, es el motor de la animación) */
+        body { margin: 0; padding: 0; background-color: #050505; overflow: hidden; font-family: 'Quicksand', sans-serif; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .firefly { position: absolute; width: 3px; height: 3px; background-color: #ffeb3b; border-radius: 50%; box-shadow: 0 0 6px 2px #ffeb3b88; animation: floatUp linear infinite, twinkle 2s ease-in-out infinite alternate; z-index: 1; }
+        @keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }
+        @keyframes twinkle { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+        #garden { position: absolute; bottom: 0; width: 100%; height: 100%; z-index: 2; }
+        .flower-wrapper { position: absolute; bottom: 0; display: flex; flex-direction: column; align-items: center; transform-origin: bottom center; }
+        .stem { width: 4px; background: linear-gradient(to top, #0f3814, #2d8a39); border-radius: 4px; transform-origin: bottom center; transform: scaleY(0); }
+        .flower-head { position: absolute; top: 0; display: flex; justify-content: center; align-items: center; transform: scale(0); }
+        .center { width: 15px; height: 15px; background-color: #f39c12; border-radius: 50%; z-index: 3; box-shadow: inset 0 0 5px rgba(0,0,0,0.3); }
+        .petal { position: absolute; width: 12px; height: 35px; border-radius: 50%; transform-origin: bottom center; top: -30px; z-index: 2; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .leaf { position: absolute; width: 25px; height: 12px; background: #2d8a39; border-radius: 50% 0 50% 0; bottom: 30%; transform: scale(0); transform-origin: left center; }
+        .leaf.right { border-radius: 0 50% 0 50%; transform-origin: right center; }
+        .grow-stem { animation: growUp 2s ease-out forwards; }
+        .bloom { animation: bloomPop 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .grow-leaf { animation: bloomPop 1s ease-out forwards; }
+        @keyframes growUp { to { transform: scaleY(1); } }
+        @keyframes bloomPop { to { transform: scale(1); } }
+        #text-container { position: relative; z-index: 10; text-align: center; opacity: 0; background: rgba(0, 0, 0, 0.5); padding: 30px 40px; border-radius: 20px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); max-width: 80%; animation: fadeInText 3s ease-in-out forwards; animation-delay: 5s; }
+        @keyframes fadeInText { to { opacity: 1; } }
+        .subtitle { font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; color: #ffeb3b; margin-bottom: 10px; }
+        .title { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin: 0; background: linear-gradient(to right, #fff, #ffeb3b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-style: italic; }
+        .message { margin-top: 15px; font-size: 1.1rem; line-height: 1.6; color: #e0e0e0; }
+        .music-player { margin-top: 20px; opacity: 0.7; transition: 0.3s; }
+        .music-player:hover { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <div id="fireflies"></div>
+
+    <div id="garden"></div>
+
+    <div id="text-container">
+        <div class="subtitle">Solo porque sí</div>
+        <h1 class="title">Flores Amarillas</h1>
+        <div class="message">
+            Dicen que hoy es el día de regalar flores amarillas, <br>
+            así que programé este jardín eterno solo para ti.<br>
+            Ojalá te saque una sonrisa. ✨
+        </div>
+        
+        <div class="music-player">
+            <iframe style="border-radius:12px; margin-top: 15px;" 
+            src="https://open.spotify.com/embed/track/3AJwUDP919kvQ9QcozQPxg" 
+            width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const garden = document.getElementById('garden');
+        // === AQUÍ ESTÁ EL CAMBIO: Lista de solo colores AMARILLOS ===
+        const flowerColors = ['#f6e58d', '#ffeb3b', '#fdd835', '#fff176', '#f9ca24', '#ffca28']; 
+        const totalFlowers = 35;
+
+        function createFlower() {
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('flower-wrapper');
+            const leftPosition = Math.random() * 100;
+            wrapper.style.left = leftPosition + 'vw';
+            wrapper.style.zIndex = Math.floor(Math.random() * 10);
+            const stemHeight = Math.random() * 50 + 20; 
+            const stem = document.createElement('div');
+            stem.classList.add('stem');
+            stem.style.height = stemHeight + 'vh';
+            const delay = Math.random() * 2;
+            stem.style.animationDelay = delay + 's';
+            stem.classList.add('grow-stem');
+            const leafLeft = document.createElement('div');
+            leafLeft.classList.add('leaf');
+            leafLeft.style.left = '-25px';
+            leafLeft.style.animationDelay = (delay + 1) + 's';
+            leafLeft.classList.add('grow-leaf');
+            const leafRight = document.createElement('div');
+            leafRight.classList.add('leaf', 'right');
+            leafRight.style.right = '-25px';
+            leafRight.style.bottom = '50%';
+            leafRight.style.animationDelay = (delay + 1.2) + 's';
+            leafRight.classList.add('grow-leaf');
+            const flowerHead = document.createElement('div');
+            flowerHead.classList.add('flower-head');
+            flowerHead.style.top = '-' + (stemHeight) + 'vh';
+            flowerHead.style.animationDelay = (delay + 1.5) + 's';
+            flowerHead.classList.add('bloom');
+            const center = document.createElement('div');
+            center.classList.add('center');
+            const colorIndex = Math.floor(Math.random() * flowerColors.length);
+            const petalColor = flowerColors[colorIndex];
+            flowerHead.appendChild(center);
+            for (let i = 0; i < 8; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.background = petalColor;
+                petal.style.transform = 'rotate(' + (i * 45) + 'deg) translateY(-10px)';
+                flowerHead.appendChild(petal);
+            }
+            wrapper.appendChild(stem);
+            wrapper.appendChild(leafLeft);
+            wrapper.appendChild(leafRight);
+            wrapper.appendChild(flowerHead);
+            garden.appendChild(wrapper);
+        }
+        for (let i = 0; i < totalFlowers; i++) { createFlower(); }
+        const firefliesContainer = document.getElementById('fireflies');
+        for (let i = 0; i < 40; i++) { const firefly = document.createElement('div'); firefly.classList.add('firefly'); firefly.style.left = Math.random() * 100 + 'vw'; firefly.style.animationDuration = (Math.random() * 10 + 5) + 's, ' + (Math.random() * 2 + 1) + 's'; firefly.style.animationDelay = (Math.random() * 5) + 's, 0s'; firefliesContainer.appendChild(firefly); }
+    </script>
+</body>
+</html>
+
+
